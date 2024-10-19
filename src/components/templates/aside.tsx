@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import TimeInput from '../ui/time-input'
+import SubtitleInput from '../ui/subtitle-input'
 
 export default function Aside() {
   const placeholder = () => {
@@ -15,7 +15,7 @@ export default function Aside() {
         flex-1 p-8 overflow-y-scroll
       '
     >
-      <TimeInput timeStamp={7385011} />
+      <SubtitleInput index={1} startStamp={0} endStamp={10000} />
       <div>{placeholder()}</div>
     </aside>
   )

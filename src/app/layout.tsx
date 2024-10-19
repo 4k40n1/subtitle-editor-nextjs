@@ -1,10 +1,23 @@
 import type { Metadata } from 'next'
-import { Noto_Sans, Noto_Sans_Mono } from 'next/font/google'
+import { Noto_Sans, Noto_Serif, Noto_Sans_Mono } from 'next/font/google'
 import './globals.css'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
   weight: ['400', '600'],
+  preload: true
+})
+
+const notoSerif = Noto_Serif({
+  subsets: [
+    'cyrillic',
+    'cyrillic-ext',
+    'greek',
+    'greek-ext',
+    'latin',
+    'latin-ext'
+  ],
+  weight: ['400'],
   preload: true
 })
 
@@ -27,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${notoSans.className} ${notoSansMono.className} antialiased`}
+        className={`${notoSans.className} ${notoSerif.className} ${notoSansMono.className} antialiased`}
       >
         {children}
       </body>

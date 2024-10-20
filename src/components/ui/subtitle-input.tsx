@@ -29,7 +29,7 @@ export default function SubtitleInput({
   return (
     <div
       className='
-        p-2 border border-black flex items-stretch gap-2 bg-white
+        p-2 border border-black flex flex-col md:flex-row items-stretch gap-2 bg-white
         selection:bg-black selection:text-white caret-black
       '
     >
@@ -39,7 +39,7 @@ export default function SubtitleInput({
         '
       >
         <div className='flex justify-between items-stretch gap-0.5'>
-          <div className='flex flex-row items-center gap-1'>
+          <div className='flex flex-row items-center gap-1 mb-auto'>
             <BiSolidTag />
             <span className='font-sans font-semibold text-sm'>
               {index.toLocaleString('en-US', { minimumIntegerDigits: 3 })}
@@ -59,22 +59,24 @@ export default function SubtitleInput({
           onChangeEnd={handleChangeEnd}
         />
       </div>
-      <CPL countList={handleContent(_content)} />
-      <div
-        className='flex flex-col grow'
-      >
-        <span className='text-center text-xs font-sans'>Subtitle:</span>
-        <textarea
-          className='
-            grow h-full bg-transparent border-0 outline-none
-            content-center text-center text-sm font-serif
-            resize-none rounded-sm hover:bg-black/15
-          '
-          value={_content}
-          rows={3}
-          placeholder='Insert some content.'
-          onChange={e => setContent(e.currentTarget.value)}
-        />
+      <div className='flex flex-row grow overflow-hidden'>
+        <CPL countList={handleContent(_content)} />
+        <div
+          className='flex flex-col grow'
+        >
+          <span className='text-center text-xs font-sans'>Subtitle:</span>
+          <textarea
+            className='
+              h-full w-full bg-transparent border-0 outline-none
+              content-center text-center text-sm font-serif
+              resize-none rounded-sm hover:bg-black/15 overflow-y-hidden
+            '
+            value={_content}
+            rows={3}
+            placeholder='Insert some content.'
+            onChange={e => setContent(e.currentTarget.value)}
+          />
+        </div>
       </div>
     </div>
   )

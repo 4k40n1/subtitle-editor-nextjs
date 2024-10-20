@@ -12,7 +12,7 @@ export default function RangeInput({
   startStamp, endStamp, onChangeStart, onChangeEnd
 }: RangeInputProps) {
   return (
-    <div className='flex flex-col gap-0.5'>
+    <div className='flex flex-row md:flex-col justify-between flex-wrap gap-0.5'>
       <div
         className='flex items-center rounded-sm hover:bg-black/15'
       >

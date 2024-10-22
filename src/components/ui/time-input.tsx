@@ -1,7 +1,7 @@
 'use client'
 
-import Time from '@/core/utils/time'
 import { useEffect, useState } from 'react'
+import Time from '@/core/utils/time'
 
 interface TimeImputProps {
   timeStamp: number,

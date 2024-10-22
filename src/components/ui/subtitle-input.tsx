@@ -1,10 +1,10 @@
 'use client'
 
 import { BiSolidTag } from 'react-icons/bi'
-import RangeInput from './range-input'
-import CPS from './cps'
-import { useState } from 'react'
 import CPL from './cpl'
+import CPS from './cps'
+import RangeInput from './range-input'
+import { useState } from 'react'
 
 interface SubtitleInputProps {
   index: number,

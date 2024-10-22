@@ -1,5 +1,5 @@
-import TimeInput from './time-input'
 import { TbSquareArrowLeft, TbSquareArrowRight } from 'react-icons/tb'
+import TimeInput from './time-input'
 
 interface RangeInputProps {
   startStamp: number,

@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
-import { Noto_Sans, Noto_Serif, Noto_Sans_Mono } from 'next/font/google'
 import './globals.css'
+import { Noto_Sans, Noto_Sans_Mono, Noto_Serif } from 'next/font/google'
+import type { Metadata } from 'next'
+import { SubtitleProvider } from '@/data/contexts/subtitle-context'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -42,7 +43,9 @@ export default function RootLayout({
       <body
         className={`${notoSans.className} ${notoSerif.className} ${notoSansMono.className} antialiased`}
       >
-        {children}
+        <SubtitleProvider>
+          {children}
+        </SubtitleProvider>
       </body>
     </html>
   )

@@ -29,7 +29,7 @@ export default function SubtitleInput({
   return (
     <div
       className='
-        p-2 border border-black flex flex-col md:flex-row items-stretch gap-2 bg-white
+        p-2 flex flex-col md:flex-row items-stretch gap-2 bg-white
         selection:bg-black selection:text-white caret-black
       '
     >
@@ -67,9 +67,10 @@ export default function SubtitleInput({
           <span className='text-center text-xs font-sans'>Subtitle:</span>
           <textarea
             className='
-              h-full w-full bg-transparent border-0 outline-none
+              h-full w-full bg-transparent border-none outline-none
               content-center text-center text-sm font-serif
               resize-none rounded-sm hover:bg-black/15 overflow-y-hidden
+              focus:bg-transparent
             '
             value={_content}
             rows={3}

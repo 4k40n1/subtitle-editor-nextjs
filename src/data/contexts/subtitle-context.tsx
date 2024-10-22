@@ -49,9 +49,13 @@ export function SubtitleProvider({ children }: SubtitleProviderProps) {
           startStamp: 0,
           endStamp: 500,
           content: ''
+        }, {
+          startStamp: 0,
+          endStamp: 500,
+          content: ''
         }])
       } else {
-        const _subtitles =  await JSON.parse(subtitles)
+        const _subtitles = await JSON.parse(subtitles)
         setSubtitleList(_subtitles)
       }
     }, []

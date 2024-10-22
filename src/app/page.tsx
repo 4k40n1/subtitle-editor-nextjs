@@ -5,7 +5,7 @@ import Main from '@/components/templates/main'
 export default function Home() {
   return (
     <div
-      className='flex flex-col h-screen w-full select-none bg-custom-500'
+      className='flex flex-col h-screen w-full select-none bg-white'
     >
       <div className='fixed w-full'>
         <Header />

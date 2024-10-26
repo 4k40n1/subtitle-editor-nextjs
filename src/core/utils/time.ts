@@ -11,4 +11,16 @@ export default class Time {
     const _milisecond = Math.floor(milisecond)
     return _hour + _minute + _seconde + _milisecond
   }
+
+  static format = (stamp: number) => {
+    return `${
+      this.getHour(stamp).toLocaleString('en-US', { minimumIntegerDigits: 2 })
+    }:${
+      this.getMinute(stamp).toLocaleString('en-US', { minimumIntegerDigits: 2 })
+    }:${
+      this.getSecond(stamp).toLocaleString('en-US', { minimumIntegerDigits: 2 })
+    }.${
+      this.getMilisecond(stamp).toLocaleString('en-US', { minimumIntegerDigits: 3 })
+    }`
+  }
 }

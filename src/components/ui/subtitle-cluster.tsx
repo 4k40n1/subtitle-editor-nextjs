@@ -1,39 +1,37 @@
 'use client'
 
-import { SubtitleControllerBottom, SubtitleControllerTop } from './subtitle-controller'
-import SubtitleInput from './subtitle-input'
+import ControlledSubtitleInput from './controlled-subtitle-input'
 import SubtitleType from '@/core/types/subtitle'
 import useSubtitle from '@/data/hooks/useSubtitle'
 
 export default function SubtitleCluster() {
-  const { subtitles } = useSubtitle()
+  const { subtitles, add, replace, merge, remove } = useSubtitle()
+
+  const loadCluster = () => {
+    return subtitles.map(
+      (subtitle: SubtitleType, index: number) => {
+        return (
+          <ControlledSubtitleInput
+            key={index}
+            index={index}
+            content={subtitle.content}
+            startStamp={subtitle.startStamp}
+            endStamp={subtitle.endStamp}
+            onChange={replace}
+            onClose={() => remove(index)}
+            onAdd={() => add(index)}
+            onMerge={() => merge(index)}
+          />
+        )
+      }
+    )
+  }
 
   return (
     <div
       className='flex flex-col'
     >
-      {subtitles.map(
-        (subtitle: SubtitleType, index: number) => {
-          return (
-            <div
-              className='relative group border-b last:border-0 border-custom-100 border-dotted'
-              key={index}
-            >
-              <SubtitleControllerTop onClick={() => alert(`Remove item: ${index}`)} />
-              <SubtitleInput
-                index={index + 1}
-                startStamp={subtitle.startStamp}
-                endStamp={subtitle.endStamp}
-                content={subtitle.content}
-              />
-              <SubtitleControllerBottom
-                onClickAdd={() => alert(`Add item: ${index}`)}
-                onClickMerge={() => alert(`Merge items: ${index}`)}
-              />
-            </div>
-          )
-        }
-      )}
+      {loadCluster()}
     </div>
   )
 }

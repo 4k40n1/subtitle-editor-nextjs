@@ -2,13 +2,17 @@
 
 import { ReactNode, createContext, useCallback, useEffect, useState } from 'react'
 import SubtitleType from '@/core/types/subtitle'
+import Subtitles from '@/core/utils/subtitles'
+import Time from '@/core/utils/time'
 
 export interface SubtitleContextProps {
   subtitles: SubtitleType[],
-  add: (index: number, subtitle: SubtitleType) => void,
+  add: (index: number) => void,
   replace: (index: number, subtitle: SubtitleType) => void,
+  merge: (index: number) => void,
   remove: (index: number) => void,
-  save: () => void
+  save: () => void,
+  converted: string,
 }
 
 const SubtitleContext = createContext<SubtitleContextProps>({} as SubtitleContextProps)
@@ -19,21 +23,30 @@ interface SubtitleProviderProps {
 
 export function SubtitleProvider({ children }: SubtitleProviderProps) {
   const [ subtitleList, setSubtitleList ] = useState<SubtitleType[]>([])
+  const [ converted, setConverted ] = useState<string>('')
 
-  const add = (index: number, subtitle: SubtitleType) => {
-    const before = subtitleList.slice(0, index)
-    const after = subtitleList.slice(index, subtitleList.length)
-    setSubtitleList([ ...before, subtitle, ...after ])
+  const add = (index: number) => {
+    const list = Subtitles.add(index, subtitleList)
+    setSubtitleList(list)
+    converter(list)
   }
 
   const replace = (index: number, subtitle: SubtitleType) => {
-    setSubtitleList(subtitleList.with(index, subtitle))
+    const newList = Subtitles.replace(index, subtitle, subtitleList)
+    setSubtitleList(newList)
+    converter(newList)
+  }
+
+  const merge = (index: number) => {
+    const list = Subtitles.merge(index, subtitleList)
+    setSubtitleList(list)
+    converter(list)
   }
 
   const remove = (index: number) => {
-    const before = subtitleList.slice(0, index)
-    const after = subtitleList.slice(index, subtitleList.length)
-    setSubtitleList([ ...before, ...after ])
+    const list = Subtitles.remove(index, subtitleList)
+    setSubtitleList(list)
+    converter(list)
   }
 
   const save = async (): Promise<void> => {
@@ -41,23 +54,33 @@ export function SubtitleProvider({ children }: SubtitleProviderProps) {
     localStorage.setItem('subtitles', subtitles)
   }
 
+  const converter = (subtitles: SubtitleType[]) => {
+    const converted = subtitles.map((value:SubtitleType, index: number) => {
+      return `${
+        index + 1
+      }\n${
+        Time.format(value.startStamp)
+      } --> ${
+        Time.format(value.endStamp)
+      }\n${
+        value.content.length > 0 ? value.content
+          .replaceAll('\n\n', '\n---\n')
+          .replaceAll('\n\n', '\n---\n') : '---'
+      }`
+    }).reduce((previous:string, current:string)=>{
+      return `${previous}\n\n${current}`
+    }, 'begin\n')
+    setConverted(converted)
+  }
+
   const load = useCallback(
     async () => {
       const subtitles = localStorage.getItem('subtitles')
-      if (!subtitles) {
-        setSubtitleList([{
-          startStamp: 0,
-          endStamp: 500,
-          content: ''
-        }, {
-          startStamp: 0,
-          endStamp: 500,
-          content: ''
-        }])
-      } else {
-        const _subtitles = await JSON.parse(subtitles)
-        setSubtitleList(_subtitles)
-      }
+      const _default = '[{"startStamp":0,"endStamp":500,"content":""}]'
+      const _subtitles:SubtitleType[] = await JSON.parse(subtitles ?? _default)
+      setSubtitleList(_subtitles)
+      
+      converter(_subtitles)
     }, []
   )
 
@@ -67,7 +90,15 @@ export function SubtitleProvider({ children }: SubtitleProviderProps) {
 
   return (
     <SubtitleContext.Provider
-      value={{ subtitles: subtitleList, add, replace, remove, save }}
+      value={{ 
+        get subtitles() {return subtitleList},
+        add,
+        replace,
+        merge,
+        remove,
+        save,
+        converted
+      }}
     >
       {children}
     </SubtitleContext.Provider>

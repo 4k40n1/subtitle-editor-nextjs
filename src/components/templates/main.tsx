@@ -1,10 +1,14 @@
+// 'use client'
+
 import { ReactNode } from 'react'
+// import useSubtitle from '@/data/hooks/useSubtitle'
 
 interface MainProps {
   children?: ReactNode
 }
 
-export default function Main({ children }: MainProps) {
+export default function Main({children}: MainProps) {
+  // const {converted} = useSubtitle()
   return (
     <main
       className='
@@ -21,6 +25,7 @@ export default function Main({ children }: MainProps) {
       >
         {children || 'Video Place'}
       </div>
+      {/* <textarea className='w-full grow text-wrap' value={converted} onChange={()=>{}} /> */}
     </main>
   )
 }

@@ -14,13 +14,13 @@ export default function RangeInput({
   return (
     <div className='flex flex-row md:flex-col justify-between flex-wrap gap-0.5'>
       <div
-        className='flex items-center rounded-sm hover:bg-black/15'
+        className='flex items-center rounded-sm hover:bg-black/15 has-[:focus]:bg-transparent'
       >
         <TbSquareArrowRight />
         <TimeInput timeStamp={startStamp} onChange={onChangeStart}/>
       </div>
       <div
-        className='flex items-center rounded-sm hover:bg-black/15'
+        className='flex items-center rounded-sm hover:bg-black/15 has-[:focus]:bg-transparent'
       >
         <TbSquareArrowLeft />
         <TimeInput timeStamp={endStamp} onChange={onChangeEnd}/>

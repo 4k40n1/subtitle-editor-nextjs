@@ -1,30 +1,44 @@
-'use client'
-
 import { BiSolidTag } from 'react-icons/bi'
 import CPL from './cpl'
 import CPS from './cps'
 import RangeInput from './range-input'
-import { useState } from 'react'
+import SubtitleType from '@/core/types/subtitle'
 
 interface SubtitleInputProps {
   index: number,
   startStamp: number,
   endStamp: number,
-  content?: string,
+  content: string,
+  onChange: (index: number, subtitle: SubtitleType) => void,
 }
 
 export default function SubtitleInput({
-  index, startStamp, endStamp, content
+  index, startStamp, endStamp, content, onChange
 }: SubtitleInputProps) {
-
-  const [ _startStamp, setStartStamp ] = useState(startStamp)
-  const [ _endStamp, setEndStamp ] = useState(endStamp)
-  const [ _content, setContent ] = useState(content ?? '')
-
-  const handleChangeStart = (stamp: number) => setStartStamp(stamp)
-  const handleChangeEnd = (stamp: number) => setEndStamp(stamp)
   const handleCount = (text: string) => text.replaceAll('\n', '')
   const handleContent = (value: string) => value.split('\n').map((line: string) => line.length)
+
+  const getSubtitle = (): SubtitleType => {
+    return { startStamp: startStamp, endStamp: endStamp, content: content }
+  }
+
+  const handleContentChange = (value: string) => {
+    const subtitle = getSubtitle()
+    subtitle.content = value
+    onChange(index, subtitle)
+  }
+
+  const handleStartStampChange = (value: number) => {
+    const subtitle = getSubtitle()
+    subtitle.startStamp = value
+    onChange(index, subtitle)
+  }
+
+  const handleEndStampChange = (value: number) => {
+    const subtitle = getSubtitle()
+    subtitle.endStamp = value
+    onChange(index, subtitle)
+  }
 
   return (
     <div
@@ -42,25 +56,25 @@ export default function SubtitleInput({
           <div className='flex flex-row items-center gap-1 mb-auto'>
             <BiSolidTag />
             <span className='font-sans font-semibold text-sm'>
-              {index.toLocaleString('en-US', { minimumIntegerDigits: 3 })}
+              {(index + 1).toLocaleString('en-US', { minimumIntegerDigits: 3 })}
             </span>
           </div>
           <CPS
-            startStamp={_startStamp}
-            endStamp={_endStamp}
-            count={handleCount(_content).length}
+            startStamp={startStamp}
+            endStamp={endStamp}
+            count={handleCount(content).length}
           />
         </div>
 
         <RangeInput
-          startStamp={_startStamp}
-          endStamp={_endStamp}
-          onChangeStart={handleChangeStart}
-          onChangeEnd={handleChangeEnd}
+          startStamp={startStamp}
+          endStamp={endStamp}
+          onChangeStart={handleStartStampChange}
+          onChangeEnd={handleEndStampChange}
         />
       </div>
       <div className='flex flex-row grow overflow-hidden'>
-        <CPL countList={handleContent(_content)} />
+        <CPL countList={handleContent(content)} />
         <div
           className='flex flex-col grow'
         >
@@ -72,10 +86,10 @@ export default function SubtitleInput({
               resize-none rounded-sm hover:bg-black/15 overflow-y-hidden
               focus:bg-transparent
             '
-            value={_content}
+            value={content}
             rows={3}
             placeholder='Insert some content.'
-            onChange={e => setContent(e.currentTarget.value)}
+            onChange={e => handleContentChange(e.currentTarget.value)}
           />
         </div>
       </div>

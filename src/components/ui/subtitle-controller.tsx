@@ -15,7 +15,7 @@ export function SubtitleControllerTop({onClick}: SubtitleControllerTopProps) {
       className='absolute top-0.5 right-0.5 z-10 hidden group-hover:block'
     >
       <button
-        className='border border-white hover:border-black rounded-full p-0.5'
+        className='border group-only:hidden border-white hover:border-black rounded-full p-0.5'
         onClick={onClick}
       >
         <MdClose />
@@ -38,13 +38,13 @@ export function SubtitleControllerBottom({
         className='flex flex-row border border-dashed border-black rounded-md bg-white'
       >
         <button
-          className='text-black p-0.5 rounded-full'
+          className='text-black m-0.5 rounded-full hover:bg-black/25'
           onClick={onClickAdd}
         >
           <MdAdd size={24} />
         </button>
         <button
-          className='group-last:hidden text-black p-0.5 rounded-full'
+          className='group-last:hidden text-black m-0.5 rounded-full hover:bg-black/25'
           onClick={onClickMerge}
         >
           <MdOutlineVerticalAlignCenter size={24} />

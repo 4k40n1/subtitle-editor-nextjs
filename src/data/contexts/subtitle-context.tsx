@@ -13,6 +13,7 @@ export interface SubtitleContextProps {
   remove: (index: number) => void,
   save: () => void,
   converted: string,
+  generateVTTFile: () => string,
 }
 
 const SubtitleContext = createContext<SubtitleContextProps>({} as SubtitleContextProps)
@@ -73,6 +74,12 @@ export function SubtitleProvider({ children }: SubtitleProviderProps) {
     setConverted(converted)
   }
 
+  const generateVTTFile = () => {
+    const vttContent = `WEBVTT\n\n${converted}`
+    const blob = new Blob([vttContent], { type: 'text/vtt' })
+    return URL.createObjectURL(blob)
+  }
+
   const load = useCallback(
     async () => {
       const subtitles = localStorage.getItem('subtitles')
@@ -97,7 +104,8 @@ export function SubtitleProvider({ children }: SubtitleProviderProps) {
         merge,
         remove,
         save,
-        converted
+        converted,
+        generateVTTFile,
       }}
     >
       {children}

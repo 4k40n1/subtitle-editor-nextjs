@@ -1,7 +1,7 @@
 import './globals.css'
 import { Noto_Sans, Noto_Sans_Mono, Noto_Serif } from 'next/font/google'
 import type { Metadata } from 'next'
-import { SubtitleProvider } from '@/data/contexts/subtitle-context'
+import ProviderNest from '@/data/contexts/provider-nest'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -41,11 +41,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${notoSans.className} ${notoSerif.className} ${notoSansMono.className} antialiased`}
+        className={
+          `${notoSans.className} ${notoSerif.className} ${notoSansMono.className} antialiased`
+        }
       >
-        <SubtitleProvider>
+        <ProviderNest>
           {children}
-        </SubtitleProvider>
+        </ProviderNest>
       </body>
     </html>
   )
